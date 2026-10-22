@@ -77,30 +77,22 @@ export const CategoryCreatorScreen: React.FC<CategoryCreatorScreenProps> = ({
 
   const handleQuickFillShowdown = (presetName: string) => {
     soundManager.playClick();
-    if (presetName === 'millennials_genz') {
-      setTitle('Millennials vs Gen Z');
+    if (presetName === 'team_a_b') {
+      setTitle('Team A vs Team B');
+      setEmoji('⚔️');
+      setDescription('Head-to-head general knowledge battle between Team A and Team B.');
+      setSideAName('Team A');
+      setSideAEmoji('🔴');
+      setSideBName('Team B');
+      setSideBEmoji('🔵');
+    } else if (presetName === 'red_blue') {
+      setTitle('Red vs Blue');
       setEmoji('⚡');
-      setDescription('90s/2000s tech & culture vs short-form video & modern internet trends.');
-      setSideAName('Millennials');
-      setSideAEmoji('📼');
-      setSideBName('Gen Z');
-      setSideBEmoji('📱');
-    } else if (presetName === 'students_teachers') {
-      setTitle('Students vs Teachers');
-      setEmoji('🎓');
-      setDescription('Academic curriculum, historical milestones, literature, and school trivia.');
-      setSideAName('Students');
-      setSideAEmoji('🎒');
-      setSideBName('Teachers');
-      setSideBEmoji('👩‍🏫');
-    } else if (presetName === 'coffee_tea') {
-      setTitle('Coffee vs Tea Lovers');
-      setEmoji('☕');
-      setDescription('Global bean varieties, artisanal tea traditions, cafe culture & caffeine lore.');
-      setSideAName('Baristas');
-      setSideAEmoji('☕');
-      setSideBName('Tea Masters');
-      setSideBEmoji('🍵');
+      setDescription('Fast-paced trivia face-off between the Red and Blue squads.');
+      setSideAName('Red Squad');
+      setSideAEmoji('🟥');
+      setSideBName('Blue Squad');
+      setSideBEmoji('🟦');
     }
   };
 
@@ -117,10 +109,10 @@ export const CategoryCreatorScreen: React.FC<CategoryCreatorScreenProps> = ({
       title: title.trim(),
       badge: 'CUSTOM CATEGORY',
       emoji: emoji || '🌟',
-      tagline: `${sideAName || 'Side A'} vs ${sideBName || 'Side B'}`,
+      tagline: `${sideAName || 'Team A'} vs ${sideBName || 'Team B'}`,
       description: description.trim() || 'Custom general knowledge battle created by the community.',
-      sideA: { name: sideAName.trim() || 'Team A', emoji: sideAEmoji, color: '#3B82F6' },
-      sideB: { name: sideBName.trim() || 'Team B', emoji: sideBEmoji, color: '#8B5CF6' },
+      sideA: { name: sideAName.trim() || 'Team A', emoji: sideAEmoji || '🔴', color: '#EF4444' },
+      sideB: { name: sideBName.trim() || 'Team B', emoji: sideBEmoji || '🔵', color: '#3B82F6' },
       defaultQuestionFilter: 'custom',
       isCustom: true,
     };
@@ -146,7 +138,7 @@ export const CategoryCreatorScreen: React.FC<CategoryCreatorScreenProps> = ({
         <View style={styles.headerBlock}>
           <Text style={styles.headline}>Custom Trivia Category</Text>
           <Text style={styles.subtitle}>
-            Create your own custom theme or battle showdown — like Millennials vs Gen Z, Students vs Teachers, or anything you imagine!
+            Create your own custom theme or battle showdown — define Team A, Team B, your questions, or any topic you imagine!
           </Text>
         </View>
 
@@ -156,21 +148,15 @@ export const CategoryCreatorScreen: React.FC<CategoryCreatorScreenProps> = ({
           <View style={styles.templatePills}>
             <TouchableOpacity
               style={styles.pill}
-              onPress={() => handleQuickFillShowdown('millennials_genz')}
+              onPress={() => handleQuickFillShowdown('team_a_b')}
             >
-              <Text style={styles.pillText}>⚡ Millennial vs Gen Z</Text>
+              <Text style={styles.pillText}>⚔️ Team A vs Team B</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.pill}
-              onPress={() => handleQuickFillShowdown('students_teachers')}
+              onPress={() => handleQuickFillShowdown('red_blue')}
             >
-              <Text style={styles.pillText}>🎓 Student vs Teacher</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.pill}
-              onPress={() => handleQuickFillShowdown('coffee_tea')}
-            >
-              <Text style={styles.pillText}>☕ Coffee vs Tea</Text>
+              <Text style={styles.pillText}>⚡ Red vs Blue</Text>
             </TouchableOpacity>
           </View>
         </View>

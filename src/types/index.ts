@@ -11,8 +11,7 @@ export type Category =
   | 'Geography'
   | 'Tech'
   | 'Culinary'
-  | 'Millennials vs Gen Z'
-  | 'Students vs Teachers'
+  | 'Team A vs Team B'
   | 'Careers & Jobs'
   | 'Custom';
 
@@ -27,8 +26,7 @@ export type QuestionThemeFilter =
   | 'biology'
   | 'sports'
   | 'entertainment'
-  | 'millennials_genz'
-  | 'students_teachers'
+  | 'team_a_b'
   | 'careers'
   | 'custom';
 

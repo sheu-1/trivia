@@ -81,9 +81,6 @@ export const GauntletGameScreen: React.FC<GauntletGameScreenProps> = ({
 
   const timerRef = useRef<any>(null);
   const simulatedTimeoutsRef = useRef<any[]>([]);
-  const autoAdvanceTimeoutRef = useRef<any>(null);
-  const autoAdvanceIntervalRef = useRef<any>(null);
-  const [autoAdvanceCountdown, setAutoAdvanceCountdown] = useState<number | null>(null);
 
   const currentRoundConfig = ROUND_CONFIGS[currentRoundIndex];
   const activeQuestion = roundQuestions[currentQuestionIndex];
@@ -126,10 +123,6 @@ export const GauntletGameScreen: React.FC<GauntletGameScreenProps> = ({
     // Clear any previous AI lock-in timeouts
     simulatedTimeoutsRef.current.forEach((t) => clearTimeout(t));
     simulatedTimeoutsRef.current = [];
-    if (autoAdvanceTimeoutRef.current) clearTimeout(autoAdvanceTimeoutRef.current);
-    if (autoAdvanceIntervalRef.current) clearInterval(autoAdvanceIntervalRef.current);
-    setAutoAdvanceCountdown(null);
-
     // Schedule AI contestant lock-ins
     opponentContestants.forEach((opp) => {
       if (roundStates[opp.id]?.isEliminated) return;
@@ -156,8 +149,6 @@ export const GauntletGameScreen: React.FC<GauntletGameScreenProps> = ({
     return () => {
       simulatedTimeoutsRef.current.forEach((t) => clearTimeout(t));
       simulatedTimeoutsRef.current = [];
-      if (autoAdvanceTimeoutRef.current) clearTimeout(autoAdvanceTimeoutRef.current);
-      if (autoAdvanceIntervalRef.current) clearInterval(autoAdvanceIntervalRef.current);
     };
   }, [activeQuestion]);
 
@@ -246,32 +237,10 @@ export const GauntletGameScreen: React.FC<GauntletGameScreenProps> = ({
       }
     }, 200);
 
-    // Automatically advance to the next question so user does not need to tap button
-    if (autoAdvanceTimeoutRef.current) clearTimeout(autoAdvanceTimeoutRef.current);
-    if (autoAdvanceIntervalRef.current) clearInterval(autoAdvanceIntervalRef.current);
-
-    let secs = 2;
-    setAutoAdvanceCountdown(secs);
-    autoAdvanceIntervalRef.current = setInterval(() => {
-      secs -= 1;
-      if (secs > 0) {
-        setAutoAdvanceCountdown(secs);
-      } else {
-        clearInterval(autoAdvanceIntervalRef.current);
-      }
-    }, 1000);
-
-    autoAdvanceTimeoutRef.current = setTimeout(() => {
-      handleNext();
-    }, 2200);
   };
 
   // Next question or round finish
   const handleNext = () => {
-    if (autoAdvanceTimeoutRef.current) clearTimeout(autoAdvanceTimeoutRef.current);
-    if (autoAdvanceIntervalRef.current) clearInterval(autoAdvanceIntervalRef.current);
-    setAutoAdvanceCountdown(null);
-
     soundManager.playClick();
 
     if (currentQuestionIndex + 1 < currentRoundConfig.questionCount) {
@@ -443,8 +412,8 @@ export const GauntletGameScreen: React.FC<GauntletGameScreenProps> = ({
           >
             <Text style={styles.actionButtonText}>
               {currentQuestionIndex + 1 < currentRoundConfig.questionCount
-                ? `NEXT QUESTION →${autoAdvanceCountdown !== null ? ` (Auto in ${autoAdvanceCountdown}s)` : ''}`
-                : `COMMENCE ROUND CUT →${autoAdvanceCountdown !== null ? ` (Auto in ${autoAdvanceCountdown}s)` : ''}`}
+                ? 'NEXT QUESTION →'
+                : 'COMMENCE ROUND CUT →'}
             </Text>
           </TouchableOpacity>
         )}
